@@ -24,7 +24,7 @@ def create_access_token(user_id: int) -> str:
         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
     payload = {"sub": str(user_id), "exp": expire, "type": "access"}
-    return jwt.encode(payload, settings.JWT_PRIVATE_KEY, algorithm="RS256")
+    return jwt.encode(payload, settings.JWT_PRIVATE_KEY.replace("\\n", "\n"), algorithm="RS256")
 
 
 def create_refresh_token(user_id: int) -> str:
@@ -32,12 +32,12 @@ def create_refresh_token(user_id: int) -> str:
         days=settings.REFRESH_TOKEN_EXPIRE_DAYS
     )
     payload = {"sub": str(user_id), "exp": expire, "type": "refresh"}
-    return jwt.encode(payload, settings.JWT_PRIVATE_KEY, algorithm="RS256")
+    return jwt.encode(payload, settings.JWT_PRIVATE_KEY.replace("\\n", "\n"), algorithm="RS256")
 
 
 def decode_token(token: str) -> dict:
     try:
-        payload = jwt.decode(token, settings.JWT_PUBLIC_KEY, algorithms=["RS256"])
+        payload = jwt.decode(token, settings.JWT_PUBLIC_KEY.replace("\\n", "\n"), algorithms=["RS256"])
         return payload
     except JWTError:
         raise ValueError("Invalid token")
