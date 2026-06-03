@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     # Services
     AUTH_SERVICE_URL: str
     USER_SERVICE_URL: str
-
+    STEAM_SERVICE_URL: str
     # App
     APP_PORT: int = 8000
 

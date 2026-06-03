@@ -29,6 +29,20 @@ services:
       timeout: 5s
       retries: 5
 
+  postgres-steam:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: steam_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_steam_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   redis:
     image: redis:7
     healthcheck:
@@ -57,6 +71,15 @@ services:
     ports:
       - "8002:8001"
 
+  steam-service:
+    build: ./steam-service
+    env_file: .env
+    depends_on:
+      postgres-steam:
+        condition: service_healthy
+    ports:
+      - "8003:8003"
+
   api-gateway:
     build: ./api-gateway
     env_file: .env
@@ -69,3 +92,4 @@ services:
 volumes:
   postgres_auth_data:
   postgres_user_data:
+  postgres_steam_data:
