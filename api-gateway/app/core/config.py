@@ -14,7 +14,10 @@ class Settings(BaseSettings):
     STEAM_SERVICE_URL: str
     TIMER_SERVICE_URL: str
     STATS_SERVICE_URL: str
-
+    FRIEND_SERVICE_URL: str
+    ACTIVITY_SERVICE_URL: str
+    LEADERBOARD_SERVICE_URL: str
+    
     # App
     APP_PORT: int = 8000
 

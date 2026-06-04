@@ -160,6 +160,80 @@ services:
     ports:
       - "8005:8005"
 
+  postgres-friend:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: friend_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_friend_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres-activity:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: activity_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_activity_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres-leaderboard:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: leaderboard_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_leaderboard_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  friend-service:
+    build: ./friend-service
+    env_file: .env
+    depends_on:
+      postgres-friend:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8006:8006"
+
+  activity-service:
+    build: ./activity-service
+    env_file: .env
+    depends_on:
+      postgres-activity:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8007:8007"
+
+  leaderboard-service:
+    build: ./leaderboard-service
+    env_file: .env
+    depends_on:
+      postgres-leaderboard:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8008:8008"
 
 
 volumes:
@@ -168,4 +242,6 @@ volumes:
   postgres_steam_data:
   postgres_timer_data:
   postgres_stats_data:
-
+  postgres_friend_data:
+  postgres_activity_data:
+  postgres_leaderboard_data:

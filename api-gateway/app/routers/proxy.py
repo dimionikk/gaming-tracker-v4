@@ -56,3 +56,20 @@ async def timer_proxy(request: Request, path: str, user_id: int = Depends(verify
 async def stats_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
     url = f"{settings.STATS_SERVICE_URL}/api/v1/stats/{path}"
     return await proxy_request(request, url, user_id)
+
+@router.api_route("/api/v1/friends/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def friend_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
+    url = f"{settings.FRIEND_SERVICE_URL}/api/v1/friends/{path}"
+    return await proxy_request(request, url, user_id)
+
+
+@router.api_route("/api/v1/activity/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def activity_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
+    url = f"{settings.ACTIVITY_SERVICE_URL}/api/v1/activity/{path}"
+    return await proxy_request(request, url, user_id)
+
+
+@router.api_route("/api/v1/leaderboard/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def leaderboard_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
+    url = f"{settings.LEADERBOARD_SERVICE_URL}/api/v1/leaderboard/{path}"
+    return await proxy_request(request, url, user_id)
