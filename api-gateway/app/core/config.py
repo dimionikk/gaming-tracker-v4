@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     FRIEND_SERVICE_URL: str
     ACTIVITY_SERVICE_URL: str
     LEADERBOARD_SERVICE_URL: str
+    CHAT_SERVICE_URL: str
     
     # App
     APP_PORT: int = 8000

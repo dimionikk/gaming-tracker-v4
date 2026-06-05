@@ -73,3 +73,8 @@ async def activity_proxy(request: Request, path: str, user_id: int = Depends(ver
 async def leaderboard_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
     url = f"{settings.LEADERBOARD_SERVICE_URL}/api/v1/leaderboard/{path}"
     return await proxy_request(request, url, user_id)
+
+@router.api_route("/api/v1/chat/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def chat_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
+    url = f"{settings.CHAT_SERVICE_URL}/api/v1/chat/{path}"
+    return await proxy_request(request, url, user_id)
