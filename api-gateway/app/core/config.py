@@ -18,7 +18,8 @@ class Settings(BaseSettings):
     ACTIVITY_SERVICE_URL: str
     LEADERBOARD_SERVICE_URL: str
     CHAT_SERVICE_URL: str
-    
+    GOAL_SERVICE_URL: str
+    ACHIEVEMENT_SERVICE_URL: str
     # App
     APP_PORT: int = 8000
 

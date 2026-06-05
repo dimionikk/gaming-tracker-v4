@@ -78,3 +78,14 @@ async def leaderboard_proxy(request: Request, path: str, user_id: int = Depends(
 async def chat_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
     url = f"{settings.CHAT_SERVICE_URL}/api/v1/chat/{path}"
     return await proxy_request(request, url, user_id)
+
+@router.api_route("/api/v1/goals/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def goal_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
+    url = f"{settings.GOAL_SERVICE_URL}/api/v1/goals/{path}"
+    return await proxy_request(request, url, user_id)
+
+
+@router.api_route("/api/v1/achievements/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def achievement_proxy(request: Request, path: str, user_id: int = Depends(verify_token)):
+    url = f"{settings.ACHIEVEMENT_SERVICE_URL}/api/v1/achievements/{path}"
+    return await proxy_request(request, url, user_id)
